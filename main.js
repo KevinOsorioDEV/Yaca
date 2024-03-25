@@ -1,15 +1,7 @@
 import { error, log } from "node:console";
-import { readFileSync } from "node:fs";
 
-function LeerArchivo(ruta) {
-  try {
-    const datos = readFileSync(ruta);
-    const contenidoJson = JSON.parse(datos);
-    return contenidoJson;
-  } catch (err) {
-    error(`Se ha producido un error al leer el archivo ${err}`);
-  }
-}
+import { ColorTexto, FormatearMoneda, LeerArchivo } from "./herramientas.js";
+
 function Hora(salario, dias) {
   var hora = salario / dias;
   return Math.ceil(hora);
@@ -104,20 +96,72 @@ function LaIguana() {
   let TotalHorasRecargos = HED + HEN + HEDDF + HENDF + RNO + HDDF + HNDF;
   let netoPagar =
     salarioBase + auxilioTransporte + TotalHorasRecargos - descuentos;
-  log(`Total Horas Extra: ${HED}`);
-  log(`Total Horas Extra Nocturna: ${HEN}`);
-  log(`Total Horas Extra Diurna DyF: ${HEDDF}`);
-  log(`Total Horas Extra Nocturna DyF: ${HENDF}`);
-  log(`Total Recargos Nocturno Ordinario: ${RNO}`);
-  log(`Total Horas Dominical y Festiva Diurna: ${HDDF}`);
-  log(`Total Horas Dominical y Festiva Nocturna: ${HNDF}`);
-  log(`Total Horas y Recargos: ${TotalHorasRecargos}`);
-  log(`Auxilio de transporte: ${auxilioTransporte}`);
   log(
-    `\x1b[31m%s\x1b[0m`,
-    `Total deducciones en salud y pension: ${descuentos}`
+    `TOTAL HORAS EXTRAS DIURNAS -----------------> ${ColorTexto(
+      FormatearMoneda(HED),
+      "33"
+    )}`
   );
-  log(`NETO A PAGAR -> \x1b[32m${netoPagar.toLocaleString()}\x1b[0m `);
+  log(
+    `TOTAL HORAS EXTRAS NOCTURNAS ---------------> ${ColorTexto(
+      FormatearMoneda(HEN),
+      "33"
+    )}`
+  );
+  log(
+    `TOTAL HORAS EXTRAS DIURNA DF ---------------> ${ColorTexto(
+      FormatearMoneda(HEDDF),
+      "33"
+    )}`
+  );
+  log(
+    `TOTAL HORAS EXTRAS NOCTURNA DF -------------> ${ColorTexto(
+      FormatearMoneda(HENDF),
+      "33"
+    )}`
+  );
+  log(
+    `TOTAL RECARGOS NOCTURNO ORDINARIOS ---------> ${ColorTexto(
+      FormatearMoneda(RNO),
+      "33"
+    )}`
+  );
+  log(
+    `TOTAL HORAS DOMINICAL Y FESTIVAS DIURNAS ---> ${ColorTexto(
+      FormatearMoneda(HDDF),
+      "33"
+    )}`
+  );
+  log(
+    `TOTAL HORAS DOMINICAL Y FESTIVAS NOCTURNAS -> ${ColorTexto(
+      FormatearMoneda(HNDF),
+      "33"
+    )}`
+  );
+  log(
+    `TOTAL HORAS EXTRAS Y RECARGOS --------------> ${ColorTexto(
+      FormatearMoneda(TotalHorasRecargos),
+      "32"
+    )}`
+  );
+  log(
+    `AUXILIO DE TRANSPORTE ----------------------> ${ColorTexto(
+      FormatearMoneda(auxilioTransporte),
+      "32"
+    )}`
+  );
+  log(
+    `TOTAL SALUD Y PENSION ----------------------> ${ColorTexto(
+      FormatearMoneda(descuentos),
+      "31"
+    )}`
+  );
+  log(
+    `NETO A PAGAR ----------------------------->  ${ColorTexto(
+      FormatearMoneda(netoPagar),
+      "32"
+    )}`
+  );
 }
 
 LaIguana();
