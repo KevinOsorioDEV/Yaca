@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { error, log } from "node:console";
 
 export function ColorTexto(str, codigo) {
   return `\x1b[${codigo}m${str}\x1b[0m`;
