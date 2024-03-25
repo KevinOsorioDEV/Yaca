@@ -2,91 +2,48 @@ import { error, log } from "node:console";
 
 import { ColorTexto, FormatearMoneda, LeerArchivo } from "./herramientas.js";
 
-function Hora(salario, dias) {
-  var hora = salario / dias;
-  return Math.ceil(hora);
-}
-
-function HoraExtraDiurna(hora, totalHoras, porcentaje) {
-  let horaextra = hora * porcentaje * totalHoras;
-  return horaextra;
-}
-
-function HoraExtraNocturna(hora, totalHoras, porcentaje) {
-  let horaExtraNocturna = hora * porcentaje * totalHoras;
-  return horaExtraNocturna;
-}
-
-function HoraExtraDiurnaDF(hora, totalHoras, porcentaje) {
-  let horaExtraDiurnaDF = hora * porcentaje * totalHoras;
-  return horaExtraDiurnaDF;
-}
-
-function HoraExtraNocturnaDF(hora, totalHoras, porcentaje) {
-  let horaExtraNocturnaDF = hora * porcentaje * totalHoras;
-  return horaExtraNocturnaDF;
-}
-
-function RecargoNocturnoOrdinario(hora, totalHoras, porcentaje) {
-  let recargoNocturnoOrdinario = hora * porcentaje * totalHoras;
-  return recargoNocturnoOrdinario;
-}
-
-function HoraDominicalyFestivaDiurna(hora, totalHoras, porcentaje) {
-  let horaDominicalDiurna = hora * porcentaje * totalHoras;
-  return horaDominicalDiurna;
-}
-
-function HoraDominicalyFestivaNocturna(hora, totalHoras, porcentaje) {
-  let ValorHoraDominicalFestivaNocturna = hora * porcentaje * totalHoras;
-  return ValorHoraDominicalFestivaNocturna;
-}
-
-function Deducciones(salario, pension, salud) {
-  let deduccion = salario * pension + salario * salud;
-  return deduccion;
-}
+import * as Calcular from "./calculoHorasRecargos.js";
 
 function LaIguana() {
   const datosJson = LeerArchivo("datos.json");
   const horasJson = LeerArchivo("totalhoras.json");
-  const ValorHora = Hora(datosJson.salariobase, datosJson.dias);
-  let HED = HoraExtraDiurna(
+  const ValorHora = Calcular.Hora(datosJson.salariobase, datosJson.dias);
+  let HED = Calcular.HoraExtraDiurna(
     ValorHora,
     horasJson.HED,
     datosJson.porcentajes.HED
   );
-  let HEN = HoraExtraNocturna(
+  let HEN = Calcular.HoraExtraNocturna(
     ValorHora,
     horasJson.HEN,
     datosJson.porcentajes.HEN
   );
-  let HEDDF = HoraExtraDiurnaDF(
+  let HEDDF = Calcular.HoraExtraDiurnaDF(
     ValorHora,
     horasJson.HEDDF,
     datosJson.porcentajes.HEDDF
   );
-  let HENDF = HoraExtraNocturnaDF(
+  let HENDF = Calcular.HoraExtraNocturnaDF(
     ValorHora,
     horasJson.HENDF,
     datosJson.porcentajes.HENDF
   );
-  let RNO = RecargoNocturnoOrdinario(
+  let RNO = Calcular.RecargoNocturnoOrdinario(
     ValorHora,
     horasJson.RNO,
     datosJson.porcentajes.RNO
   );
-  let HDDF = HoraDominicalyFestivaDiurna(
+  let HDDF = Calcular.HoraDominicalyFestivaDiurna(
     ValorHora,
     horasJson.HDDF,
     datosJson.porcentajes.HDDF
   );
-  let HNDF = HoraDominicalyFestivaNocturna(
+  let HNDF = Calcular.HoraDominicalyFestivaNocturna(
     ValorHora,
     horasJson.HNDF,
     datosJson.porcentajes.HNDF
   );
-  let descuentos = Deducciones(
+  let descuentos = Calcular.Deducciones(
     datosJson.salariobase,
     datosJson.deducciones.pension,
     datosJson.deducciones.salud
