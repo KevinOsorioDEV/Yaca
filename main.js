@@ -44,7 +44,7 @@ function LaIguana() {
     datosJson.porcentajes.HNDF
   );
   let descuentos = Calcular.Deducciones(
-    datosJson.salariobase,
+    1987100,
     datosJson.deducciones.pension,
     datosJson.deducciones.salud
   );
