@@ -8,51 +8,55 @@ function LaIguana() {
   const datosJson = LeerArchivo("datos.json");
   const horasJson = LeerArchivo("totalhoras.json");
   const ValorHora = Calcular.Hora(datosJson.salariobase, datosJson.dias);
-  let HED = Calcular.HoraExtraDiurna(
+  let HED = Calcular.CalcularMonto(
     ValorHora,
     horasJson.HED,
     datosJson.porcentajes.HED
   );
-  let HEN = Calcular.HoraExtraNocturna(
+  let HEN = Calcular.CalcularMonto(
     ValorHora,
     horasJson.HEN,
     datosJson.porcentajes.HEN
   );
-  let HEDDF = Calcular.HoraExtraDiurnaDF(
+  let HEDDF = Calcular.CalcularMonto(
     ValorHora,
     horasJson.HEDDF,
     datosJson.porcentajes.HEDDF
   );
-  let HENDF = Calcular.HoraExtraNocturnaDF(
+  let HENDF = Calcular.CalcularMonto(
     ValorHora,
     horasJson.HENDF,
     datosJson.porcentajes.HENDF
   );
-  let RNO = Calcular.RecargoNocturnoOrdinario(
+  let RNO = Calcular.CalcularMonto(
     ValorHora,
     horasJson.RNO,
     datosJson.porcentajes.RNO
   );
-  let HDDF = Calcular.HoraDominicalyFestivaDiurna(
+  let HDDF = Calcular.CalcularMonto(
     ValorHora,
     horasJson.HDDF,
     datosJson.porcentajes.HDDF
   );
-  let HNDF = Calcular.HoraDominicalyFestivaNocturna(
+  let HNDF = Calcular.CalcularMonto(
     ValorHora,
     horasJson.HNDF,
     datosJson.porcentajes.HNDF
   );
-  let descuentos = Calcular.Deducciones(
-    1987100,
-    datosJson.deducciones.pension,
-    datosJson.deducciones.salud
-  );
+
   let salarioBase = datosJson.salariobase;
   let auxilioTransporte = datosJson.auxilios.transporte;
   let TotalHorasRecargos = HED + HEN + HEDDF + HENDF + RNO + HDDF + HNDF;
+
+  let descuentos = Calcular.Deducciones(
+    salarioBase + TotalHorasRecargos,
+    datosJson.deducciones.pension,
+    datosJson.deducciones.salud
+  );
+
   let netoPagar =
     salarioBase + auxilioTransporte + TotalHorasRecargos - descuentos;
+
   log(
     `TOTAL HORAS EXTRAS DIURNAS -----------------> ${ColorTexto(
       FormatearMoneda(HED),
@@ -108,7 +112,13 @@ function LaIguana() {
     )}`
   );
   log(
-    `TOTAL SALUD Y PENSION ----------------------> ${ColorTexto(
+    `TOTAL DEVENGADO ----------------------------> ${ColorTexto(
+      FormatearMoneda(salarioBase + auxilioTransporte + TotalHorasRecargos),
+      "36"
+    )}`
+  );
+  log(
+    `DEDUCCIONES DE SALUD Y PENSION -------------> ${ColorTexto(
       FormatearMoneda(descuentos),
       "31"
     )}`
