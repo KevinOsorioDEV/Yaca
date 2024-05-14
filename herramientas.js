@@ -23,8 +23,3 @@ export function LeerArchivo(ruta) {
     error(`Se ha producido un error al leer el archivo ${err}`);
   }
 }
-
-
-function CreaJson() {
-  
-}
